@@ -6,6 +6,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
 
+	"github.com/remy-bresson/gopileface/commons"
 	"github.com/remy-bresson/gopileface/maputils"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -20,13 +21,6 @@ import (
 type dynamoInjection struct {
 	ddb   dynamodbiface.DynamoDBAPI
 	table string
-}
-
-type Person struct {
-	ID        string `dynamodbav:"id"`
-	Firstname string `dynamodbav:"firstanme"`
-	Latname   string `dynamodbav:"lastname"`
-	Amount    int    `dynamodbav:"money"`
 }
 
 func (d *dynamoInjection) getUniqID() string {
@@ -74,7 +68,7 @@ func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events
 
 	/* ------------------------------------------------------------------ */
 	/* Create Person struc withj incoming information + uuid              */
-	var o Person
+	var o commons.Person
 	o.ID = d.getUniqID()
 	o.Firstname = firstname
 	o.Latname = lastname

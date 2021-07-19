@@ -10,8 +10,8 @@ func ExtractSomethingFromMap(queries map[string]string, what string, mandatory b
 	extract := queries[what]
 	if extract == "" {
 		if mandatory {
-			log.Error("empty", what)
-			return "", errors.New("empty" + what)
+			log.Error("empty ", what)
+			return "", errors.New("empty " + what)
 		}
 	}
 	return extract, nil
