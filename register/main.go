@@ -1,11 +1,12 @@
 package main
 
 import (
-	"errors"
 	"os"
 
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/remy-bresson/gopileface/maputils"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -26,16 +27,6 @@ type Person struct {
 	Firstname string `dynamodbav:"firstanme"`
 	Latname   string `dynamodbav:"lastname"`
 	Amount    int    `dynamodbav:"money"`
-}
-
-func extractSomethingFromQueryString(queries map[string]string, what string) (string, error) {
-	extract := queries[what]
-	if extract == "" {
-		log.Error("empty", what)
-		return "", errors.New("empty" + what)
-
-	}
-	return extract, nil
 }
 
 func (d *dynamoInjection) getUniqID() string {
@@ -68,13 +59,13 @@ func (d *dynamoInjection) getUniqID() string {
 func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	/* ------------------------------------------------------------------ */
 	/* Ectracting lastname + firstname from query                         */
-	lastname, err := extractSomethingFromQueryString(request.QueryStringParameters, "lastname")
+	lastname, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "lastname")
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Info("======>lastname :", lastname)
 
-	firstname, err := extractSomethingFromQueryString(request.QueryStringParameters, "firstname")
+	firstname, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "firstname")
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
