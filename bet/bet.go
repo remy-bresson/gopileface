@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"math/rand"
 	"os"
@@ -150,7 +151,7 @@ func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events
 
 	var resultatTirage string
 
-	if tirage > 7 {
+	if tirage > 5 {
 		/* Player win */
 		resultatTirage = bet
 		gain := amountInteger * 2
@@ -192,9 +193,17 @@ func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events
 	/* ------------------------------------------------------------------ */
 
 	/* ------------------------------------------------------------------ */
+	/* Build output struc                                                 */
+	var output map[string]string = make(map[string]string)
+	output["result"] = resultatTirage
+	output["amount"] = strconv.Itoa(currentAmount)
+	ret, _ := json.Marshal(output)
+	/* ------------------------------------------------------------------ */
+
+	/* ------------------------------------------------------------------ */
 	/* Manage return                                                      */
 	return events.APIGatewayProxyResponse{
-		Body:       string(resultatTirage),
+		Body:       string(ret),
 		StatusCode: 200,
 	}, nil
 	/* ------------------------------------------------------------------ */
