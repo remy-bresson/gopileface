@@ -59,13 +59,13 @@ func (d *dynamoInjection) getUniqID() string {
 func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	/* ------------------------------------------------------------------ */
 	/* Ectracting lastname + firstname from query                         */
-	lastname, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "lastname")
+	lastname, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "lastname", true)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Info("======>lastname :", lastname)
 
-	firstname, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "firstname")
+	firstname, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "firstname", true)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}

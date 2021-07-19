@@ -6,12 +6,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func ExtractSomethingFromMap(queries map[string]string, what string) (string, error) {
+func ExtractSomethingFromMap(queries map[string]string, what string, mandatory bool) (string, error) {
 	extract := queries[what]
 	if extract == "" {
-		log.Error("empty", what)
-		return "", errors.New("empty" + what)
-
+		if mandatory {
+			log.Error("empty", what)
+			return "", errors.New("empty" + what)
+		}
 	}
 	return extract, nil
 }

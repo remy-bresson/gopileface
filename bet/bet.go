@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -25,26 +26,41 @@ type Person struct {
 	Amount    int    `dynamodbav:"money"`
 }
 
+func checkBet(bet string) (string, error) {
+	if bet != "pile" && bet != "face" {
+		return "", errors.New("vous devez jouer pile ou face")
+	}
+	return bet, nil
+}
+
 func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	/* ------------------------------------------------------------------ */
 	/* Ectracting lastname + firstname from query                         */
-	uid, err := maputils.ExtractSomethingFromMap(request.Headers, "uid")
+	uid, err := maputils.ExtractSomethingFromMap(request.Headers, "uid", true)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Info("======>uid :", uid)
 
-	amount, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "amount")
+	amount, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "amount", true)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Info("======>amount :", amount)
 
-	bet, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "bet")
+	bet, err := maputils.ExtractSomethingFromMap(request.QueryStringParameters, "bet", true)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Info("======>bet :", bet)
+	/* ------------------------------------------------------------------ */
+
+	/* ------------------------------------------------------------------ */
+	/* Check if bet value is valid one                                    */
+	_, err = checkBet(bet)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
 	/* ------------------------------------------------------------------ */
 
 	/* ------------------------------------------------------------------ */
