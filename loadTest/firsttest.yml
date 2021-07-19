@@ -1,0 +1,15 @@
+config:
+  target: "https://35mf2zvvtd.execute-api.eu-west-3.amazonaws.com/Prod/"
+  phases:
+    - duration: 5
+      arrivalRate: 5
+      name: Warm up
+    - duration: 20
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up load   
+scenarios:
+  - name: "register"
+    flow:
+      - get:
+          url: "/register?firstname={{ $randomString() }}&lastname={{ $randomString() }}"          
