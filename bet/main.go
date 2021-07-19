@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/remy-bresson/maputils"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -39,6 +40,7 @@ func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events
 	/* ------------------------------------------------------------------ */
 	/* Ectracting lastname + firstname from query                         */
 	uid, err := extractSomethingFromMap(request.Headers, "uid")
+	maputils.ExtractSomethingFromMap(request.Headers, "uid")
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
