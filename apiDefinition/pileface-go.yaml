@@ -1,0 +1,102 @@
+openapi: "3.0.1"
+info:
+  title: "heads or tails in GO"
+  description: "heads or tails game api in GO"
+  version: "1.0.0"
+paths:
+  /amount/{uid}:
+    parameters:
+      - name: "uid"
+        in: "path"
+        type: "string"
+        required: true
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "200 response"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        credentials: 
+          Fn::Sub:
+            "${RoleForApiGatewayToInvokeDynamoDb.Arn}"
+        uri: 
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:dynamodb:action/GetItem"                  
+        responses:
+          default:
+            statusCode: "200"
+            responseTemplates:
+              application/json: "#set($inputRoot = $input.path('$')){\"amount\": \"$inputRoot.Item.money.N\"}"
+        requestTemplates:
+          application/json:
+            Fn::Sub:
+              - '{"TableName": "${tableName}","Key": {"id": {"S": "$method.request.path.uid"}},"ProjectionExpression":"money","ConsistentRead": true}'
+              - tableName:
+                  Ref: DynamoTableName
+        passthroughBehavior: "when_no_templates"  
+  /register:
+    post:
+      operationId: "register"
+      parameters:
+      - name: "lastname"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "firstname"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "401":
+          description: "401 response"
+          content: {}
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:        
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RegisterFunction.Arn}/invocations"        
+        httpMethod: "POST"        
+        passthroughBehavior: "when_no_match"        
+        type: "aws_proxy"        
+
+  /bet:
+    post:
+      operationId: "bet"
+      parameters:
+      - name: "uid"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      - name: "bet"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "amount"
+        in: "query"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "400 response"
+          content: {}
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:        
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${BetFunction.Arn}/invocations"        
+        httpMethod: "POST"        
+        passthroughBehavior: "when_no_match"        
+        type: "aws_proxy"
+       
+components: {}

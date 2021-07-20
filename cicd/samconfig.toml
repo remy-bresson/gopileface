@@ -7,4 +7,4 @@ s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-j2qvj3nznfwd"
 s3_prefix = "rbnGolang"
 region = "eu-west-3"
 profile = "edfx-poc"
-capabilities = "CAPABILITY_IAM"
+capabilities = ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
