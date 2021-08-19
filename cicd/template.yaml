@@ -37,6 +37,9 @@ Resources:
           Parameters:
             Location: !Sub s3://edfx-rbn-pileface/swagger/pileface-go.yaml
       EndpointConfiguration: EDGE  
+      Variables:
+        var1: "testA"
+        var3:  "testB"
 
   DynamoTable:
     Type: AWS::Serverless::SimpleTable
