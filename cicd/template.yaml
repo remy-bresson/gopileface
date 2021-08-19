@@ -16,9 +16,15 @@ Parameters:
     Default: GoPileFaceTable
     Description: name of the associated dynamodb table
 
+Mappings: 
+  FunctionsNames: 
+    Register: 
+      Name: PileFaceRegisterInGoLang   
+    Bet:
+      Name: PileFaceBetInGoLang   
+      
 
 Resources:
-
   APIPileFace:
     Type: AWS::Serverless::Api
     DependsOn: RoleForApiGatewayToInvokeDynamoDb
@@ -38,8 +44,10 @@ Resources:
             Location: !Sub s3://edfx-rbn-pileface/swagger/pileface-go.yaml
       EndpointConfiguration: EDGE  
       Variables:
-        var1: "testA"
-        var3:  "testB"
+        v1RegisterFunctionName: !FindInMap [FunctionsNames, Register, Name]
+        v2RegisterFunctionName:  "TODO"
+        v1BetFunctionName: !FindInMap [FunctionsNames, Bet, Name]
+        v2BetFunctionName:  "TODO"
 
   DynamoTable:
     Type: AWS::Serverless::SimpleTable
@@ -50,6 +58,7 @@ Resources:
   RegisterFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      FunctionName: !FindInMap [FunctionsNames, Register, Name]
       CodeUri: ../compute/register/
       Handler: handler
       Runtime: go1.x
@@ -66,6 +75,7 @@ Resources:
   BetFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      FunctionName: !FindInMap [FunctionsNames, Bet, Name]
       CodeUri: ../compute/bet/
       Handler: handler
       Runtime: go1.x

@@ -61,7 +61,7 @@ paths:
           content: {}
       x-amazon-apigateway-integration:        
         uri:
-          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RegisterFunction.Arn}/invocations"        
+          "arn:aws:apigateway:eu-west-3:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-3:361509912577:function:${stageVariables.v1RegisterFunctionName}/invocations"
         httpMethod: "POST"        
         passthroughBehavior: "when_no_match"        
         type: "aws_proxy"        
@@ -94,7 +94,7 @@ paths:
           content: {}
       x-amazon-apigateway-integration:        
         uri:
-          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${BetFunction.Arn}/invocations"        
+          "arn:aws:apigateway:eu-west-3:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-3:361509912577:function:${stageVariables.v1BetFunctionName}/invocations"
         httpMethod: "POST"        
         passthroughBehavior: "when_no_match"        
         type: "aws_proxy"
