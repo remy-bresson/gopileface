@@ -66,7 +66,7 @@ paths:
         passthroughBehavior: "when_no_match"        
         type: "aws_proxy"        
 
-  /bet:
+  v1/bet:
     post:
       operationId: "bet"
       parameters:
@@ -95,6 +95,39 @@ paths:
       x-amazon-apigateway-integration:        
         uri:
           "arn:aws:apigateway:eu-west-3:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-3:361509912577:function:${stageVariables.v1BetFunctionName}/invocations"
+        httpMethod: "POST"        
+        passthroughBehavior: "when_no_match"        
+        type: "aws_proxy"
+
+  v2/bet:
+    post:
+      operationId: "bet"
+      parameters:
+      - name: "uid"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      - name: "bet"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "amount"
+        in: "query"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "400 response"
+          content: {}
+        "200":
+          description: "200 response"
+          content: {}
+      x-amazon-apigateway-integration:        
+        uri:
+          "arn:aws:apigateway:eu-west-3:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-3:361509912577:function:${stageVariables.v2BetFunctionName}/invocations"
         httpMethod: "POST"        
         passthroughBehavior: "when_no_match"        
         type: "aws_proxy"

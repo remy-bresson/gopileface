@@ -151,7 +151,7 @@ func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events
 
 	var resultatTirage string
 
-	if tirage > 5 {
+	if tirage > 2 {
 		/* Player win */
 		resultatTirage = bet
 		gain := amountInteger * 2
@@ -197,6 +197,7 @@ func (d *dynamoInjection) handler(request events.APIGatewayProxyRequest) (events
 	var output map[string]string = make(map[string]string)
 	output["result"] = resultatTirage
 	output["amount"] = strconv.Itoa(currentAmount)
+	output["version"] = "v2"
 	ret, _ := json.Marshal(output)
 	/* ------------------------------------------------------------------ */
 
