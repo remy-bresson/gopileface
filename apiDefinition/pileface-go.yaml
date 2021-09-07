@@ -37,7 +37,7 @@ paths:
               - tableName:
                   Ref: DynamoTableName
         passthroughBehavior: when_no_templates
-      description: Ceci est une description voir su le commit git fonctionne
+      description: 'Ceci est une description voir su le commit git fonctionne, dans une branche maintenant'
   /register:
     post:
       operationId: register
