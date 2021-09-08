@@ -126,4 +126,9 @@ paths:
         httpMethod: POST
         passthroughBehavior: when_no_match
         type: aws_proxy
+  /masterService:
+    get:      
+      tags: []
+      responses: {}
+      operationId: masterService
 components: {}
