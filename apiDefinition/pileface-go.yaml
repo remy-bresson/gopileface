@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
   title: heads or tails in GO
-  description: V1 - heads or tails game api in GO
-  version: 1.0.0
+  description: V2 - heads or tails game api in GO
+  version: 2.0.0
 paths:
   '/amount/{uid}':
     parameters:
