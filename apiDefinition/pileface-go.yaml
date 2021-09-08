@@ -128,17 +128,18 @@ paths:
         type: aws_proxy
   /serviceALaconenV2:
     get:
-      summary: Your GET endpoint
+      summary: Un service nouveau en V2
       tags: []
       responses: {}
       operationId: serviceAlacon
-      description: Un service a la con en V1
+      description: Un service a la con en V2
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties: {}
+        description: ''
     parameters: []
 components: {}
 servers: []
