@@ -127,10 +127,10 @@ paths:
         passthroughBehavior: when_no_match
         type: aws_proxy
   /serviceALaconenV2:
-    get:      
+    get:
       tags: []
       responses: {}
-      operationId: serviceAlacon
+      operationId: nouveauEnV2
       description: Un service a la con en V2
       requestBody:
         content:
