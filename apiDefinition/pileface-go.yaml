@@ -131,6 +131,13 @@ paths:
       summary: Your GET endpoint
       tags: []
       responses: {}
-      operationId: get-serviceALaconenV1
+      operationId: serviceAlacon
+      description: Un service a la con en V1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
 components: {}
 servers: []
