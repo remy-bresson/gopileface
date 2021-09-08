@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: heads or tails in GO
-  description: heads or tails game api in GO
+  description: V1 - heads or tails game api in GO
   version: 1.0.0
 paths:
   '/amount/{uid}':
@@ -127,3 +127,4 @@ paths:
         passthroughBehavior: when_no_match
         type: aws_proxy
 components: {}
+servers: []
