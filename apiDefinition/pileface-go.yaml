@@ -127,8 +127,7 @@ paths:
         passthroughBehavior: when_no_match
         type: aws_proxy
   /serviceALaconenV2:
-    get:
-      summary: Un service nouveau en V2
+    get:      
       tags: []
       responses: {}
       operationId: serviceAlacon
