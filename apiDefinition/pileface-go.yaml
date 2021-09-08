@@ -126,5 +126,11 @@ paths:
         httpMethod: POST
         passthroughBehavior: when_no_match
         type: aws_proxy
+  /serviceALaconenV1:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-serviceALaconenV1
 components: {}
 servers: []
